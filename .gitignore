@@ -25,6 +25,13 @@ camp_rank.db
 backend/camp_rank.db
 backend/data/import_reports/
 backend/data/real_samples/
+backend/data/product_parameters*.json
+
+# Local source spreadsheets / private documents
+*.xlsx
+*.xls
+*.xlsm
+*.docx
 
 # Local runtime artifacts
 *.log
