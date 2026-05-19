@@ -9,6 +9,7 @@ import {
   labelRiskTag,
   safeList,
 } from "../utils/format.js";
+import { openPublicProductUrl, PRODUCT_LINK_UNAVAILABLE_TEXT, publicProductUrl } from "../utils/urls.js";
 
 function displayProductName(item) {
   const sourceTitle = safeList(item?.source_sku_titles)[0] || "";
@@ -92,8 +93,7 @@ function conclusionText(current, target, targetRole) {
 }
 
 function openProductUrl(url) {
-  if (!url) return;
-  window.open(url, "_blank", "noopener,noreferrer");
+  openPublicProductUrl(url);
 }
 
 function CompareProductPanel({ title, item, emphasis }) {
@@ -132,8 +132,10 @@ function CompareProductPanel({ title, item, emphasis }) {
         按当前评论样本校正后，购买风险参考值约 {formatPercentRatio(item.standardized_risk_rate)}。
         这个数值只用于比较风险信号，不代表真实使用中一定会出问题。
       </p>
-      {item.recommended_product_url && (
+      {publicProductUrl(item.recommended_product_url) ? (
         <button type="button" className="link-button" onClick={() => openProductUrl(item.recommended_product_url)}>打开商品链接</button>
+      ) : (
+        <p className="muted">{PRODUCT_LINK_UNAVAILABLE_TEXT}</p>
       )}
     </section>
   );

@@ -34,6 +34,14 @@ def test_product_detail_api_returns_full_detail(client, db_session):
     assert len(data["products"]) >= 2
 
 
+def test_product_detail_api_hides_placeholder_product_links(client, db_session):
+    canonical = db_session.query(CanonicalProduct).first()
+    response = client.get(f"/api/products/{canonical.id}")
+
+    assert response.status_code == 200
+    assert all(product["product_url"] is None for product in response.json()["products"])
+
+
 def test_products_api_filters_work(client):
     brand_response = client.get("/api/products", params={"brand": "北岭"})
     use_case_response = client.get("/api/products", params={"use_case": "过夜轻露营"})

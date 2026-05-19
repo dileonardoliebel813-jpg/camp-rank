@@ -6,6 +6,7 @@ from sqlalchemy.orm import Session, joinedload
 from app.models import CanonicalProduct, Product
 from app.scoring.explanation_generator import generate_platform_explanation
 from app.services.spec_analysis_service import build_parameter_analysis
+from app.utils.urls import public_product_url
 
 
 def parse_tags(raw: str | None) -> list[str]:
@@ -223,5 +224,7 @@ def _model_dict(model, exclude: set[str] | None = None) -> dict:
         if column.name in exclude:
             continue
         value = getattr(model, column.name)
+        if column.name == "product_url":
+            value = public_product_url(value)
         data[column.name] = value
     return data

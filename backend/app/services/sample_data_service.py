@@ -267,7 +267,7 @@ def _create_products_for_canonical(db: Session, canonical: CanonicalProduct, ind
             title=f"{scenario['brand']} {scenario['model_name']} {scenario['capacity']} {platform}样例链接",
             shop_name=shop_name,
             shop_type=shop_type,
-            product_url=f"https://example.com/{platform.lower()}/{canonical.id}-{offer_index}",
+            product_url=None,
             image_url=scenario["main_image_url"],
             sales_volume=1200 + index * 220 + offer_index * 100,
             rating_count=350 + index * 40 + offer_index * 25,

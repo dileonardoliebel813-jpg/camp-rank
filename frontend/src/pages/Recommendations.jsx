@@ -12,6 +12,7 @@ import {
   SCENARIO_LABELS,
   safeList,
 } from "../utils/format.js";
+import { openPublicProductUrl, PRODUCT_LINK_UNAVAILABLE_TEXT, publicProductUrl } from "../utils/urls.js";
 
 const ROLE_META = {
   primary: {
@@ -516,8 +517,7 @@ function conclusionText(decision, filters) {
 }
 
 function openProductUrl(url) {
-  if (!url) return;
-  window.open(url, "_blank", "noopener,noreferrer");
+  openPublicProductUrl(url);
 }
 
 function selectedDetailProduct(detail, decision) {
@@ -579,7 +579,7 @@ function EvidenceModal({ state, onClose, onCompare }) {
   if (!state?.decision) return null;
   const { decision, detail, loading, error } = state;
   const product = decision.product || {};
-  const productUrl = product.recommended_product_url;
+  const productUrl = publicProductUrl(product.recommended_product_url);
   const positive = detail ? commentSnippets(detail, decision, "positive") : [];
   const risks = detail ? commentSnippets(detail, decision, "risk") : [];
   const parameter = selectedParameterAnalysis(detail, decision);
@@ -622,7 +622,7 @@ function EvidenceModal({ state, onClose, onCompare }) {
             <span>评论样本 {formatCount(decision.evidence_summary.review_count)} 条</span>
             {productUrl ? (
               <button type="button" className="link-button" onClick={() => openProductUrl(productUrl)}>打开商品链接</button>
-            ) : <span>当前接口未返回商品链接</span>}
+            ) : <span>{PRODUCT_LINK_UNAVAILABLE_TEXT}</span>}
           </div>
         </section>
 

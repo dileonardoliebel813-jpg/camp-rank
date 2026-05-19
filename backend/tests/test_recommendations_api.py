@@ -27,6 +27,14 @@ def test_recommendations_api_returns_platform_fields(client):
     assert "recommended_after_sale_service" in item
 
 
+def test_recommendations_api_hides_placeholder_product_links(client):
+    response = client.get("/api/recommendations")
+
+    assert response.status_code == 200
+    assert all(item["recommended_product_url"] is None for item in response.json())
+    assert all(item["lowest_price_product_url"] is None for item in response.json())
+
+
 def test_recommendations_api_returns_strict_selection_fields(client):
     response = client.get(
         "/api/recommendations",

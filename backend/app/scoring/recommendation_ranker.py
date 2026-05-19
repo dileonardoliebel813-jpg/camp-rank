@@ -11,6 +11,7 @@ from app.scoring.explanation_generator import (
 )
 from app.scoring.review_evidence_score import calculate_review_evidence
 from app.services.spec_analysis_service import build_parameter_analysis, parameter_match_score
+from app.utils.urls import public_product_url
 
 
 def _parse_tags(raw: str | None) -> list[str]:
@@ -626,7 +627,7 @@ def _offer_dict(product: Product) -> dict:
         "platform_product_id": product.platform_product_id,
         "title": product.title,
         "shop_name": product.shop_name,
-        "product_url": product.product_url,
+        "product_url": public_product_url(product.product_url),
         "stable_final_price": price.stable_final_price if price else 0.0,
         "theoretical_lowest_price": price.theoretical_lowest_price if price else 0.0,
         "coupon_reliability_score": price.coupon_reliability_score if price else 0.0,

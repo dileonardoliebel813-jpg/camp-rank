@@ -11,6 +11,7 @@ import {
   labelRiskTag,
   safeList,
 } from "../utils/format.js";
+import { openPublicProductUrl, PRODUCT_LINK_UNAVAILABLE_TEXT, publicProductUrl } from "../utils/urls.js";
 
 function lowestRecommendationPrice(rows = []) {
   const prices = rows.map((row) => Number(row.stable_final_price)).filter(Number.isFinite);
@@ -29,8 +30,7 @@ function distributionText(distribution = {}) {
 }
 
 function openProductUrl(url) {
-  if (!url) return;
-  window.open(url, "_blank", "noopener,noreferrer");
+  openPublicProductUrl(url);
 }
 
 function riskRows(rates = {}) {
@@ -123,7 +123,7 @@ function userSummary({ displayName, current, recommendation, sortedRiskRows, com
 
 function plainPriceText(current, lowest, priceGap) {
   if (current === null || current === undefined) {
-    return "当前接口没有返回可用到手价，暂时不能只凭价格判断。建议先打开商品链接核对页面价格。";
+    return "当前接口没有返回可用到手价，暂时不能只凭价格判断。若页面提供真实商品链接，建议进入商品页核对价格。";
   }
   if (priceGap > 0) {
     return `这款不是当前最便宜的。它的到手价是 ${formatMoney(current)}，比候选里最低到手价高 ${formatMoney(priceGap)}。如果你只看价格，需要再和低价备选对比；如果你更在意综合购买风险控制，还要一起看评论和售后风险。`;
@@ -190,7 +190,7 @@ export default function ProductDetail({ detail, error, commentRisk, recommendati
   const commentCount = recommendation?.comment_count ?? commentRisk?.total_comments;
   const displayName = displayProductName(recommendation, product);
   const afterSaleText = cleanText(recommendation?.recommended_after_sale_service || chosenPolicy.return_condition_text);
-  const productUrl = recommendation?.recommended_product_url || chosenProduct.product_url;
+  const productUrl = publicProductUrl(recommendation?.recommended_product_url || chosenProduct.product_url);
   const parameter = selectedParameterAnalysis(detail, chosenProduct, recommendation);
   const parameterScores = parameter?.scores || {};
   const parameterFacts = parameterFactList(parameter);
@@ -229,7 +229,7 @@ export default function ProductDetail({ detail, error, commentRisk, recommendati
             {productUrl ? (
               <button type="button" className="link-button" onClick={() => openProductUrl(productUrl)}>打开商品链接</button>
             ) : (
-              <strong>当前接口未返回</strong>
+              <strong>{PRODUCT_LINK_UNAVAILABLE_TEXT}</strong>
             )}
           </div>
         </div>
@@ -318,7 +318,7 @@ export default function ProductDetail({ detail, error, commentRisk, recommendati
                   {productUrl ? (
                     <button type="button" className="link-button" onClick={() => openProductUrl(productUrl)}>打开商品链接</button>
                   ) : (
-                    <strong>暂无链接</strong>
+                    <strong>{PRODUCT_LINK_UNAVAILABLE_TEXT}</strong>
                   )}
                 </div>
               </div>
@@ -364,7 +364,7 @@ export default function ProductDetail({ detail, error, commentRisk, recommendati
                   {productUrl ? (
                     <button type="button" className="link-button" onClick={() => openProductUrl(productUrl)}>打开商品链接</button>
                   ) : (
-                    <strong>当前接口未返回</strong>
+                    <strong>{PRODUCT_LINK_UNAVAILABLE_TEXT}</strong>
                   )}
                 </div>
               </div>
