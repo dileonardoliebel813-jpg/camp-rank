@@ -1,17 +1,17 @@
 # CampRank Backend
 
-FastAPI + SQLAlchemy + SQLite skeleton for Agent 2.
+FastAPI backend for product ingestion, scoring, recommendation ranking, product detail, and price comparison APIs.
 
-## Setup
+## Run
 
 ```bash
 pip install -r requirements.txt
 python scripts/init_db.py
 python scripts/seed_sample_data.py
-uvicorn app.main:app --reload
+python -m uvicorn app.main:app --host 127.0.0.1 --port 8000
 ```
 
-## Tests
+## Test
 
 ```bash
 python -m pytest
