@@ -1,0 +1,87 @@
+PLATFORM_FIELD_MAPPINGS = {
+    "JD": {
+        "description": "JD official/open-platform or affiliate API fields for product, price, coupon, shop, self-operated and media data.",
+        "source_guidance": "Prefer JD Open Platform or JD Union API. Product detail parameters, full comments, and return policies may require extra authorization.",
+        "field_mapping": {
+            "sku_id": "platform_product_id",
+            "skuId": "platform_product_id",
+            "ware_name": "title",
+            "title": "title",
+            "image_url": "image_url",
+            "price": "current_price",
+            "coupon_amount": "shop_coupon_amount or platform_coupon_amount",
+            "shop_name": "shop_name",
+            "is_self_operated": "self_operated",
+            "product_url": "product_url",
+        },
+        "missing_field_policy": "Missing fields are imported as empty values, added to data quality warnings, and lower confidence.",
+    },
+    "SMZDM": {
+        "description": "SMZDM deal records for price and promotion validation rather than authoritative ecommerce specs.",
+        "source_guidance": "Prefer open-platform or authorized APIs. Use as price/promotion reference, not as replacement for ecommerce product details.",
+        "field_mapping": {
+            "article_id": "platform_product_id",
+            "title": "title",
+            "mall": "platform",
+            "platform": "platform",
+            "price": "current_price",
+            "content": "promotion_text",
+            "description": "promotion_text",
+            "article_url": "product_url",
+            "url": "product_url",
+            "publish_time": "price_update_time",
+        },
+        "missing_field_policy": "Missing detail, return, comment, or spec fields generate warnings and reduce confidence.",
+    },
+    "TAOBAO": {
+        "description": "Taobao/Tmall official open-platform or Taobao affiliate fields for item, coupon, shop, image and partial details.",
+        "source_guidance": "Use authorized official APIs only. Login-only reviews, cookies, captcha handling, and private data are not supported.",
+        "field_mapping": {
+            "item_id": "platform_product_id",
+            "num_iid": "platform_product_id",
+            "title": "title",
+            "pict_url": "image_url",
+            "zk_final_price": "current_price",
+            "coupon_amount": "shop_coupon_amount",
+            "shop_title": "shop_name",
+            "user_type": "shop_type",
+            "shop_type": "shop_type",
+        },
+        "missing_field_policy": "Unsupported or absent fields return empty mappings with warnings instead of interrupting import.",
+    },
+    "PDD": {
+        "description": "PDD/Duoduo Jinbao or authorized API fields for item, group price, coupon, image, mall and sales data.",
+        "source_guidance": "Use authorized API sources and keep field source and authorization status explicit.",
+        "field_mapping": {
+            "goods_id": "platform_product_id",
+            "goods_sign": "platform_product_id",
+            "goods_name": "title",
+            "min_group_price": "current_price",
+            "coupon_discount": "platform_coupon_amount",
+            "goods_thumbnail_url": "image_url",
+            "mall_name": "shop_name",
+            "sales_tip": "sales_volume",
+        },
+        "missing_field_policy": "Missing authorization or platform fields generate warnings and lower data confidence.",
+    },
+    "REDBOOK": {
+        "description": "RedBook manual or authorized data for external reputation correction only.",
+        "source_guidance": "Phase 1 does not perform automatic public-note crawling. Use user整理 content, authorized data, or manual import.",
+        "field_mapping": {
+            "note_id": "note_url or external ID",
+            "title": "title",
+            "desc": "content",
+            "content": "content",
+            "comments": "comments_text",
+            "likes": "likes",
+            "collects": "favorites",
+            "favorites": "favorites",
+            "comment_count": "comment_count",
+        },
+        "missing_field_policy": "RedBook data is a light reputation factor and never the sole basis for the main score.",
+    },
+}
+
+
+def get_platform_mapping_summary() -> dict:
+    return PLATFORM_FIELD_MAPPINGS

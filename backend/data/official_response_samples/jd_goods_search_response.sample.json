@@ -1,0 +1,19 @@
+{
+  "result": {
+    "items": [
+      {
+        "skuId": "jd-10001",
+        "skuName": "牧高笛 户外自动帐篷 3-4人",
+        "brandName": "牧高笛",
+        "price": "499.00",
+        "imageUrl": "https://img.example.com/jd-10001.jpg",
+        "materialUrl": "https://item.jd.com/10001.html",
+        "shopName": "牧高笛京东自营旗舰店",
+        "shopType": "self_operated",
+        "inOrderCount30Days": "1200",
+        "couponInfo": "满499减40",
+        "serviceInfo": ["京东自营", "7天无理由", "价保"]
+      }
+    ]
+  }
+}

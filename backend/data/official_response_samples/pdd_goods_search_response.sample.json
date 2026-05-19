@@ -1,0 +1,18 @@
+{
+  "goods_search_response": {
+    "goods_list": [
+      {
+        "goods_id": 40001,
+        "goods_sign": "pdd-sign-40001",
+        "goods_name": "户外露营自动帐篷 3-4人",
+        "min_group_price": 26900,
+        "min_normal_price": 29900,
+        "coupon_discount": 2000,
+        "goods_thumbnail_url": "https://img.example.com/pdd-40001.jpg",
+        "goods_url": "https://mobile.yangkeduo.com/goods.html?goods_id=40001",
+        "sales_tip": "10万+",
+        "mall_name": "户外优选专营店"
+      }
+    ]
+  }
+}

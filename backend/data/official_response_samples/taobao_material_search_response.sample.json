@@ -1,0 +1,21 @@
+{
+  "tbk_dg_material_optional_response": {
+    "result_list": {
+      "map_data": [
+        {
+          "item_id": "tb-30001",
+          "title": "骆驼 户外露营帐篷 3-4人",
+          "zk_final_price": "389.00",
+          "coupon_after_price": "359.00",
+          "pict_url": "https://img.example.com/tb-30001.jpg",
+          "coupon_share_url": "https://s.click.taobao.com/example",
+          "shop_title": "骆驼户外旗舰店",
+          "user_type": "tmall",
+          "volume": 860,
+          "coupon_info": "满389减30",
+          "coupon_amount": "30"
+        }
+      ]
+    }
+  }
+}

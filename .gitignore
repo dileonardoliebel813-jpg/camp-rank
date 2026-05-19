@@ -1,0 +1,33 @@
+# Python
+.venv/
+venv/
+__pycache__/
+**/__pycache__/
+.pytest_cache/
+**/.pytest_cache/
+
+# Node / frontend build output
+node_modules/
+**/node_modules/
+dist/
+**/dist/
+
+# Local environment
+.env
+.env.*
+!.env.example
+
+# Local SQLite databases
+*.db
+*.sqlite
+*.sqlite3
+camp_rank.db
+backend/camp_rank.db
+backend/data/import_reports/
+backend/data/real_samples/
+
+# Local runtime artifacts
+*.log
+frontend-current.png
+.playwright-cli/
+docs/_docx_render_check/
