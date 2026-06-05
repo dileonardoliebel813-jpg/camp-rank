@@ -4,6 +4,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
+from app.config import get_settings  # noqa: E402
 from app.database import Base, SessionLocal, engine  # noqa: E402
 from app.models import *  # noqa: F401,F403,E402
 from app.services.comment_analysis_service import (  # noqa: E402
@@ -17,7 +18,8 @@ def main() -> None:
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        ensure_sample_data(db)
+        if get_settings().sample_data_enabled:
+            ensure_sample_data(db)
         comment_summary = analyze_and_update_comments(db)
         redbook_summary = analyze_and_update_redbook_notes(db)
         print("CampRank comment analysis completed.")
@@ -31,4 +33,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-

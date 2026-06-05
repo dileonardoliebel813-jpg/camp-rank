@@ -48,6 +48,7 @@ def run_cli(
 
     if args.import_db:
         from app.database import Base, SessionLocal, engine  # noqa: WPS433
+        from app.config import get_settings  # noqa: WPS433
         import app.models  # noqa: F401,WPS433
         from app.services.sample_data_service import ensure_sample_data  # noqa: WPS433
 
@@ -59,7 +60,7 @@ def run_cli(
             db = db_session_factory()
             should_close_db = False
         try:
-            if db_session_factory is None:
+            if db_session_factory is None and get_settings().sample_data_enabled:
                 ensure_sample_data(db)
             import_report = importer(db, saved_json_path)
             output["import_report"] = _report_to_dict(import_report)

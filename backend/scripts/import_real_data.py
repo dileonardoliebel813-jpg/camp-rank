@@ -6,6 +6,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
+from app.config import get_settings  # noqa: E402
 from app.database import Base, SessionLocal, engine  # noqa: E402
 from app.ingestion.import_service import import_from_csv_folder, import_from_json  # noqa: E402
 from app.ingestion.platform_adapters import JDAdapter, PddAdapter, RedBookAdapter, SMZDMAdapter, TaobaoAdapter  # noqa: E402
@@ -45,7 +46,8 @@ def main() -> int:
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        ensure_sample_data(db)
+        if get_settings().sample_data_enabled:
+            ensure_sample_data(db)
         if args.json_path:
             report = import_from_json(db, args.json_path, source_name=args.source_name or "manual_json")
         elif args.csv_folder:

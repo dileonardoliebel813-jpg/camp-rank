@@ -4,6 +4,7 @@ from datetime import datetime, timezone
 from sqlalchemy.exc import OperationalError
 from sqlalchemy.orm import Session, joinedload
 
+from app.config import get_settings
 from app.models import (
     CanonicalProduct,
     Comment,
@@ -69,7 +70,9 @@ def _latest_price(product: Product):
     return max(product.prices, key=lambda price: price.id) if product.prices else None
 
 
-def _ensure_sample_data_if_empty(db: Session, enabled: bool = True) -> None:
+def _ensure_sample_data_if_empty(db: Session, enabled: bool | None = None) -> None:
+    if enabled is None:
+        enabled = get_settings().sample_data_enabled
     if enabled and db.query(CanonicalProduct.id).first() is None:
         ensure_sample_data(db)
 
@@ -676,7 +679,7 @@ def calculate_all_scores(
     db: Session,
     scenario: str = "newbie_weekend",
     preference: str = "balanced",
-    seed_sample_data: bool = True,
+    seed_sample_data: bool | None = None,
 ) -> dict:
     _ensure_sample_data_if_empty(db, enabled=seed_sample_data)
     platform_result = calculate_and_update_platform_offers(db, user_preference=preference)

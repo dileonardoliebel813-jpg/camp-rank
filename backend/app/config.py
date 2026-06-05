@@ -24,6 +24,7 @@ def _env_bool(name: str, default: bool = False) -> bool:
 class Settings(BaseModel):
     project_name: str = "CampRank"
     database_url: str = _default_database_url()
+    sample_data_enabled: bool = False
     smzdm_api_enabled: bool = False
     smzdm_api_key: str = ""
     smzdm_base_url: str = ""
@@ -56,6 +57,7 @@ class Settings(BaseModel):
     def from_env(cls) -> "Settings":
         return cls(
             database_url=os.getenv("DATABASE_URL", _default_database_url()),
+            sample_data_enabled=_env_bool("SAMPLE_DATA_ENABLED"),
             smzdm_api_enabled=_env_bool("SMZDM_API_ENABLED"),
             smzdm_api_key=os.getenv("SMZDM_API_KEY", ""),
             smzdm_base_url=os.getenv("SMZDM_BASE_URL", ""),

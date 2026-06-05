@@ -6,6 +6,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
+from app.config import get_settings  # noqa: E402
 from app.database import Base, SessionLocal, engine  # noqa: E402
 from app.ingestion.fetch_service import ADAPTERS, fetch_and_import  # noqa: E402
 from app.models import *  # noqa: F401,F403,E402
@@ -38,7 +39,8 @@ def main() -> int:
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        ensure_sample_data(db)
+        if get_settings().sample_data_enabled:
+            ensure_sample_data(db)
         report = fetch_and_import(
             db,
             source=args.source,

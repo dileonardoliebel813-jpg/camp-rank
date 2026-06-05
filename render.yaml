@@ -5,8 +5,10 @@ services:
     rootDir: backend
     plan: free
     buildCommand: "pip install -r requirements.txt"
-    startCommand: "python scripts/init_db.py && python scripts/seed_sample_data.py && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+    startCommand: "python scripts/init_db.py && python -m uvicorn app.main:app --host 0.0.0.0 --port $PORT"
     healthCheckPath: /health
     envVars:
       - key: PYTHON_VERSION
         value: 3.11.9
+      - key: SAMPLE_DATA_ENABLED
+        value: "false"

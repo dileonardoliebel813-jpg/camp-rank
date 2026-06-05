@@ -8,6 +8,7 @@ import sys
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.append(str(ROOT))
 
+from app.config import get_settings  # noqa: E402
 from app.database import Base, SessionLocal, engine  # noqa: E402
 from app.ingestion.import_service import import_from_json  # noqa: E402
 from app.ingestion.platform_adapters import JDAdapter, PddAdapter, RedBookAdapter, SMZDMAdapter, TaobaoAdapter  # noqa: E402
@@ -114,7 +115,8 @@ def main() -> int:
     Base.metadata.create_all(bind=engine)
     db = SessionLocal()
     try:
-        if args.no_sample_data:
+        seed_sample_data = get_settings().sample_data_enabled and not args.no_sample_data
+        if not seed_sample_data:
             print("Sample data seeding skipped for this import.")
         else:
             ensure_sample_data(db)
@@ -133,7 +135,7 @@ def main() -> int:
 
         comment_result = analyze_and_update_comments(db)
         redbook_result = analyze_and_update_redbook_notes(db)
-        score_result = calculate_all_scores(db, seed_sample_data=not args.no_sample_data)
+        score_result = calculate_all_scores(db, seed_sample_data=seed_sample_data)
 
         report_data = report.model_dump() if hasattr(report, "model_dump") else report.dict()
         _print_json("ImportReport:", report_data)
