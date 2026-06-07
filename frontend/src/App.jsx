@@ -6,6 +6,7 @@ import {
   fetchRecommendations,
   fetchRedBookSummary,
 } from "./api/client.js";
+import ChatAssistant from "./components/ChatAssistant.jsx";
 import Home from "./pages/Home.jsx";
 import Recommendations from "./pages/Recommendations.jsx";
 import ProductDetail from "./pages/ProductDetail.jsx";
@@ -54,6 +55,20 @@ export default function App() {
     } finally {
       setLoading(false);
     }
+  }
+
+  function applyChatRecommendations(nextFilters, nextRecommendations) {
+    setFilters(nextFilters);
+    setRecommendations(nextRecommendations);
+    setLoading(false);
+    setError("");
+    setDetail(null);
+    setDetailError("");
+    setSelectedRecommendation(null);
+    setCommentRisk(null);
+    setRedbookSummary(null);
+    setCompare(null);
+    setView("recommendations");
   }
 
   async function openDetail(id) {
@@ -145,6 +160,7 @@ export default function App() {
         />
       )}
       {view === "compare" && <PriceCompare compare={compare} />}
+      <ChatAssistant currentFilters={filters} onRecommendationsReady={applyChatRecommendations} />
     </main>
   );
 }

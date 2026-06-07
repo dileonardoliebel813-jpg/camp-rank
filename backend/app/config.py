@@ -6,11 +6,12 @@ from dotenv import load_dotenv
 from pydantic import BaseModel
 
 
-load_dotenv()
+BACKEND_ROOT = Path(__file__).resolve().parents[1]
+load_dotenv(BACKEND_ROOT / ".env")
 
 
 def _default_database_url() -> str:
-    db_path = Path(__file__).resolve().parents[1] / "camp_rank.db"
+    db_path = BACKEND_ROOT / "camp_rank.db"
     return f"sqlite:///{db_path.as_posix()}"
 
 
@@ -52,6 +53,10 @@ class Settings(BaseModel):
     redbook_app_id: str = ""
     redbook_app_secret: str = ""
     redbook_base_url: str = ""
+    deepseek_api_key: str = ""
+    deepseek_base_url: str = "https://api.deepseek.com"
+    deepseek_model: str = "deepseek-v4-flash"
+    deepseek_timeout_seconds: float = 20.0
 
     @classmethod
     def from_env(cls) -> "Settings":
@@ -85,6 +90,10 @@ class Settings(BaseModel):
             redbook_app_id=os.getenv("REDBOOK_APP_ID", ""),
             redbook_app_secret=os.getenv("REDBOOK_APP_SECRET", ""),
             redbook_base_url=os.getenv("REDBOOK_BASE_URL", ""),
+            deepseek_api_key=os.getenv("DEEPSEEK_API_KEY", ""),
+            deepseek_base_url=os.getenv("DEEPSEEK_BASE_URL", "https://api.deepseek.com"),
+            deepseek_model=os.getenv("DEEPSEEK_MODEL", "deepseek-v4-flash"),
+            deepseek_timeout_seconds=float(os.getenv("DEEPSEEK_TIMEOUT_SECONDS", "20")),
         )
 
 
